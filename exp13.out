@@ -1,0 +1,20 @@
+dev_score: 0.000000   (pass 0.000000 * years 0.000 weighted 0.7, econ_grade 0.0000 weighted 0.3, - knob_penalty 0.005000 for 5 knobs via declared PARAMS)
+folds: {"fold0": 0.0, "fold1": 0.0, "fold2": 0.0, "fold3": 0.0}
+era blocks (v1.5 cross-era gate, stressed pnl): {"era0": -845056.5625, "era1": -776623.4375, "era2": -697230.0}  worst=-845057
+score (eligibility-gated, mode=dev): 0.000000   worst_three_mean 0.000000   eligible=False
+eligibility checks: {"positive_stressed_pnl": false, "year_fraction_at_least_0.7": false, "cross_era_blocks_positive": false, "entry_diversity": true, "entry_risk_at_most_300": true, "side_null_p_le_0_05": true}
+year 2010: {"sessions": 148, "attempts": 119, "passes": 0, "rate": 0.0, "pnl": -93735.625}
+year 2011: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -154911.25}
+year 2012: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -192847.1875}
+year 2013: {"sessions": 252, "attempts": 223, "passes": 0, "rate": 0.0, "pnl": -203415.0}
+year 2014: {"sessions": 256, "attempts": 227, "passes": 0, "rate": 0.0, "pnl": -204006.25}
+year 2015: {"sessions": 259, "attempts": 230, "passes": 0, "rate": 0.0, "pnl": -154888.75}
+year 2016: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -168689.6875}
+year 2017: {"sessions": 257, "attempts": 228, "passes": 0, "rate": 0.0, "pnl": -180387.1875}
+year 2018: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -181439.375}
+year 2019: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -165481.875}
+year 2020: {"sessions": 259, "attempts": 230, "passes": 0, "rate": 0.0, "pnl": -168618.75}
+year 2021: {"sessions": 259, "attempts": 230, "passes": 0, "rate": 0.0, "pnl": -163578.125}
+year 2022: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -139458.4375}
+year 2023: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -147452.5}
+{"dev_score": 0.0, "score": 0.0, "eligible": false, "output": "exp13.json"}
