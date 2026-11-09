@@ -1,10 +1,10 @@
-"""Energy overnight-shock continuation: overnight move > k x 20d mean RTH range keeps going to 13:00 CT (RB, NG, HO)."""
+"""USDA-report volume-shock continuation in grains: noon-ET 5m volume spike (WASDE/crop reports) sets direction, hold 2h."""
 import numpy as np
 import pandas as pd
 
-FAMILY = "energy-overnight-shock-continuation"
-PARAMS = {"entry_sec": 30600, "trade_sec": 34200, "exit_sec": 46800, "overnight_start": 61200, "atr_days": 20, "shock_mult": 1.5, "risk_dollars": 280}
-SYMS = ("RB", "HO")
+FAMILY = "grain-report-volume-shock"
+PARAMS = {"win_start": 39600, "win_end": 39900, "hold_end": 46800, "vol_days": 40, "vol_mult": 3.0, "risk_dollars": 280}
+SYMS = ("ZC", "ZS", "ZW")
 
 
 def signals(panel):
@@ -16,15 +16,14 @@ def signals(panel):
             continue
         sec = data.ct_sec.to_numpy()
         sess = data.session.astype(str)
-        rth = (sec >= PARAMS["entry_sec"]) & (sec < 50400)
-        g = data[rth].groupby(sess[rth])
-        atr = (g.high.max() - g.low.min()).rolling(PARAMS["atr_days"]).mean().shift(1)
-        overnight = (sec >= PARAMS["overnight_start"]) | (sec < PARAMS["entry_sec"])
-        go = data[overnight].groupby(sess[overnight])
-        move = go.close.last() - go.open.first()
-        side = np.sign(move) * (move.abs() > PARAMS["shock_mult"] * atr.reindex(move.index))
+        w = (sec >= PARAMS["win_start"]) & (sec < PARAMS["win_end"])
+        g = data[w].groupby(sess[w])
+        vol = g.volume.sum()
+        base = vol.rolling(PARAMS["vol_days"]).median().shift(1)
+        shock = vol > PARAMS["vol_mult"] * base
+        side = np.sign(g.close.last() - g.open.first()) * shock
         mapped = sess.map(side).fillna(0).to_numpy()
-        active = (sec >= PARAMS["trade_sec"]) & (sec < PARAMS["exit_sec"])
+        active = (sec >= PARAMS["win_end"]) & (sec < PARAMS["hold_end"])
         out[active] = mapped[active].astype(np.int64)
         result[symbol] = out
     return result
