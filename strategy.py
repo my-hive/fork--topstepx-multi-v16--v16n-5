@@ -1,31 +1,29 @@
-"""EIA crude release impulse on QM (full 2010-2023 history), 1 contract."""
+"""First-hour (08:30-09:30 CT) direction continues through the session in ZL and HE (ag/livestock open-auction flow)."""
 import numpy as np
 import pandas as pd
 
-FAMILY = "energy-eia-release-drift"
-PARAMS = {"release_sec": 34200, "observe_seconds": 300, "hold_seconds": 3600, "risk_points": 0.4}
+FAMILY = "ag-first-hour-continuation"
+PARAMS = {"fh_start": 30600, "fh_end": 34200, "exit_sec": 50400, "risk_dollars": 280}
+SYMS = ("ZL", "HE")
 
 
 def signals(panel):
     result = {}
     for symbol, data in panel.items():
         out = np.zeros(len(data), dtype=np.int64)
-        if symbol != "QM":
+        if symbol not in SYMS:
             result[symbol] = out
             continue
         sec = data.ct_sec.to_numpy()
-        weekday = data.index.weekday.to_numpy()
-        start = PARAMS["release_sec"] + PARAMS["observe_seconds"]
-        end = start + PARAMS["hold_seconds"]
-        release = (weekday == 2) & (sec >= PARAMS["release_sec"]) & (sec < start)
-        response = pd.Series(np.where(release, data.close - data.open, np.nan), index=data.index).groupby(data.session).sum(min_count=1)
-        side = np.sign(response)
-        mapped = data.session.map(side).fillna(0).to_numpy()
-        active = (weekday == 2) & (sec >= start) & (sec < end)
+        fh = (sec >= PARAMS["fh_start"]) & (sec < PARAMS["fh_end"])
+        g = data[fh].groupby(data.session[fh].astype(str))
+        side = np.sign(g.close.last() - g.open.first())
+        mapped = data.session.astype(str).map(side).fillna(0).to_numpy()
+        active = (sec >= PARAMS["fh_end"]) & (sec < PARAMS["exit_sec"])
         out[active] = mapped[active].astype(np.int64)
         result[symbol] = out
     return result
 
 
 def entry_risk(panel):
-    return {symbol: np.full(len(data), PARAMS["risk_points"] * 500.0, dtype=float) for symbol, data in panel.items()}
+    return {symbol: np.full(len(data), float(PARAMS["risk_dollars"])) for symbol, data in panel.items()}
