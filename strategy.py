@@ -1,27 +1,19 @@
-"""Causal baseline, optional symbols. No requirement to manufacture market diversity.
-Slow 20-bar momentum, entries after 10:00 CT, flat at 14:00. Not claimed profitable.
-"""
+"""Grain prior-session return reversal during next liquid day session."""
 import numpy as np
-
-
-def entry_risk(panel):
-    return {symbol: np.zeros(len(df)) for symbol, df in panel.items()}
-
-
+import pandas as pd
+FAMILY = "grain-prior-day-return-reversal"
+PARAMS = {"entry_sec": 30600, "exit_sec": 53100, "risk_dollars": 200}
 def signals(panel):
     result = {}
-    for symbol, df in panel.items():
+    for s, df in panel.items():
         out = np.zeros(len(df), dtype=np.int64)
-        # Two micros only, at most 0.2 standard equivalents total.
-        if symbol not in ('MES', 'MGC'):
-            result[symbol] = out
-            continue
-        for indices in df.groupby('session', sort=False).indices.values():
-            close = df.close.to_numpy()[indices]
-            sec = df.ct_sec.to_numpy()[indices]
-            # Rolling mean excludes future rows; warmup restarts each session.
-            for j in range(20, len(indices)):
-                if 36000 <= sec[j] < 50400:
-                    out[indices[j]] = int(np.sign(close[j] - close[j-20:j].mean()))
-        result[symbol] = out
+        if s not in ("ZC", "ZS", "ZW"):
+            result[s] = out; continue
+        daily = df.groupby("session", sort=False).close.last()
+        direction = -np.sign(daily.diff()).shift(1)
+        mapped = df.session.astype(str).map(pd.Series(direction.to_numpy(), index=daily.index.astype(str))).fillna(0).to_numpy()
+        sec = df.ct_sec.to_numpy()
+        out[(sec >= PARAMS["entry_sec"]) & (sec < PARAMS["exit_sec"])] = mapped[(sec >= PARAMS["entry_sec"]) & (sec < PARAMS["exit_sec"])].astype(np.int64)
+        result[s] = out
     return result
+def entry_risk(panel): return {s: np.full(len(d), PARAMS["risk_dollars"], dtype=float) for s,d in panel.items()}
