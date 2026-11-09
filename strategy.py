@@ -1,17 +1,22 @@
-"""Grain morning auction return continuation through midday session."""
+"""NQ prior-session RTH return reversal (overreaction of last day's index move), 1 contract."""
 import numpy as np
-FAMILY = "grain-morning-return-continuation"
-PARAMS = {"signal_sec": 34200, "exit_sec": 46800, "risk_dollars": 200}
+import pandas as pd
+FAMILY = "index-prior-day-reversal"
+PARAMS = {"rth_start": 30600, "rth_end": 53400, "entry_sec": 34200, "exit_sec": 53000, "risk_points": 14, "vol_lookback": 20}
 def signals(panel):
     result={}
     for s,d in panel.items():
         out=np.zeros(len(d),dtype=np.int64)
-        if s not in ('ZC','ZS','ZW','ZL'): result[s]=out; continue
-        c,sec=d.close.to_numpy(),d.ct_sec.to_numpy()
-        for idx in d.groupby('session',sort=False).indices.values():
-            k=np.searchsorted(sec[idx],PARAMS['signal_sec'])
-            if k and k<len(idx):
-                side=int(np.sign(c[idx[k-1]]-c[idx[0]])); active=(sec[idx]>=PARAMS['signal_sec'])&(sec[idx]<PARAMS['exit_sec']); out[idx[active]]=side
-        result[s]=out
+        if s!='NQ': result[s]=out; continue
+        sec=d.ct_sec.to_numpy(); sess=d.session.astype(str)
+        rth=(sec>=PARAMS['rth_start'])&(sec<PARAMS['rth_end'])
+        g=d[rth].groupby(sess[rth])
+        ret=g.close.last()-g.open.first()
+        prior_range=(g.high.max()-g.low.min())
+        high_vol=prior_range.shift(1) > prior_range.shift(1).rolling(PARAMS['vol_lookback']).median()
+        side=-np.sign(ret).shift(1)*high_vol  # prior session return; prior-only volatility gate
+        m=sess.map(pd.Series(side.to_numpy(),index=ret.index.astype(str))).fillna(0).to_numpy()
+        a=(sec>=PARAMS['entry_sec'])&(sec<PARAMS['exit_sec'])
+        out[a]=m[a].astype(np.int64); result[s]=out
     return result
-def entry_risk(panel): return {s:np.full(len(d),PARAMS['risk_dollars'],dtype=float) for s,d in panel.items()}
+def entry_risk(panel): return {s:np.full(len(d),PARAMS['risk_points']*20.0,dtype=float) for s,d in panel.items()}

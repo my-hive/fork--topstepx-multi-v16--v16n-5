@@ -1,0 +1,20 @@
+dev_score: 0.262747   (pass 0.049645 * years 0.643 weighted 0.7, econ_grade 0.8214 weighted 0.3, - knob_penalty 0.006000 for 6 knobs via declared PARAMS)
+folds: {"fold0": 0.0, "fold1": 0.10520094562647754, "fold2": 0.09929078014184398, "fold3": 0.15011820330969267}
+era blocks (v1.5 cross-era gate, stressed pnl): {"era0": 2867.5, "era1": 7552.5, "era2": 56230.0}  worst=2868
+score (eligibility-gated, mode=dev): 0.000000   worst_three_mean 0.000000   eligible=False
+eligibility checks: {"positive_stressed_pnl": true, "year_fraction_at_least_0.7": false, "cross_era_blocks_positive": true, "entry_diversity": true, "entry_risk_at_most_300": true, "side_null_p_le_0_05": true}
+year 2010: {"sessions": 149, "attempts": 120, "passes": 0, "rate": 0.0, "pnl": 662.5}
+year 2011: {"sessions": 259, "attempts": 230, "passes": 0, "rate": 0.0, "pnl": -4390.0}
+year 2012: {"sessions": 260, "attempts": 231, "passes": 0, "rate": 0.0, "pnl": -1635.0}
+year 2013: {"sessions": 254, "attempts": 225, "passes": 0, "rate": 0.0, "pnl": 1637.5}
+year 2014: {"sessions": 254, "attempts": 225, "passes": 28, "rate": 0.12444444444444444, "pnl": 6605.0}
+year 2015: {"sessions": 259, "attempts": 230, "passes": 16, "rate": 0.06956521739130435, "pnl": -5115.0}
+year 2016: {"sessions": 258, "attempts": 229, "passes": 29, "rate": 0.12663755458515283, "pnl": 1642.5}
+year 2017: {"sessions": 257, "attempts": 228, "passes": 9, "rate": 0.039473684210526314, "pnl": 1830.0}
+year 2018: {"sessions": 259, "attempts": 230, "passes": 31, "rate": 0.13478260869565217, "pnl": 15110.0}
+year 2019: {"sessions": 258, "attempts": 229, "passes": 17, "rate": 0.07423580786026202, "pnl": -5917.5}
+year 2020: {"sessions": 259, "attempts": 230, "passes": 66, "rate": 0.28695652173913044, "pnl": 33477.5}
+year 2021: {"sessions": 259, "attempts": 230, "passes": 40, "rate": 0.17391304347826086, "pnl": 25897.5}
+year 2022: {"sessions": 258, "attempts": 229, "passes": 5, "rate": 0.021834061135371178, "pnl": -3457.5}
+year 2023: {"sessions": 258, "attempts": 229, "passes": 33, "rate": 0.14410480349344978, "pnl": 302.5}
+{"dev_score": 0.26274701909308046, "score": 0.0, "eligible": false, "output": "exp11.json"}
