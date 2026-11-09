@@ -1,19 +1,17 @@
-"""Grain prior-session return reversal during next liquid day session."""
+"""Grain morning auction return continuation through midday session."""
 import numpy as np
-import pandas as pd
-FAMILY = "grain-prior-day-return-reversal"
-PARAMS = {"entry_sec": 30600, "exit_sec": 53100, "risk_dollars": 200}
+FAMILY = "grain-morning-return-continuation"
+PARAMS = {"signal_sec": 34200, "exit_sec": 46800, "risk_dollars": 200}
 def signals(panel):
-    result = {}
-    for s, df in panel.items():
-        out = np.zeros(len(df), dtype=np.int64)
-        if s not in ("ZC", "ZS", "ZW"):
-            result[s] = out; continue
-        daily = df.groupby("session", sort=False).close.last()
-        direction = -np.sign(daily.diff()).shift(1)
-        mapped = df.session.astype(str).map(pd.Series(direction.to_numpy(), index=daily.index.astype(str))).fillna(0).to_numpy()
-        sec = df.ct_sec.to_numpy()
-        out[(sec >= PARAMS["entry_sec"]) & (sec < PARAMS["exit_sec"])] = mapped[(sec >= PARAMS["entry_sec"]) & (sec < PARAMS["exit_sec"])].astype(np.int64)
-        result[s] = out
+    result={}
+    for s,d in panel.items():
+        out=np.zeros(len(d),dtype=np.int64)
+        if s not in ('ZC','ZS','ZW','ZL'): result[s]=out; continue
+        c,sec=d.close.to_numpy(),d.ct_sec.to_numpy()
+        for idx in d.groupby('session',sort=False).indices.values():
+            k=np.searchsorted(sec[idx],PARAMS['signal_sec'])
+            if k and k<len(idx):
+                side=int(np.sign(c[idx[k-1]]-c[idx[0]])); active=(sec[idx]>=PARAMS['signal_sec'])&(sec[idx]<PARAMS['exit_sec']); out[idx[active]]=side
+        result[s]=out
     return result
-def entry_risk(panel): return {s: np.full(len(d), PARAMS["risk_dollars"], dtype=float) for s,d in panel.items()}
+def entry_risk(panel): return {s:np.full(len(d),PARAMS['risk_dollars'],dtype=float) for s,d in panel.items()}
