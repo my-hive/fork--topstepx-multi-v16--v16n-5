@@ -4,7 +4,7 @@ import pandas as pd
 
 FAMILY = "energy-overnight-shock-continuation"
 PARAMS = {"entry_sec": 30600, "trade_sec": 34200, "exit_sec": 46800, "overnight_start": 61200, "atr_days": 20, "shock_mult": 1.5, "risk_dollars": 280}
-SYMS = ("RB", "NG", "HO")
+SYMS = ("RB", "HO")
 
 
 def signals(panel):
