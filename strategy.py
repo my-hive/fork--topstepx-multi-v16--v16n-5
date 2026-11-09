@@ -1,16 +1,16 @@
-"""EIA crude release impulse: first completed 5m response, one intraday trade weekly."""
+"""EIA crude release impulse on QM (full 2010-2023 history), 1 contract."""
 import numpy as np
 import pandas as pd
 
 FAMILY = "energy-eia-release-drift"
-PARAMS = {"release_sec": 34200, "observe_seconds": 300, "hold_seconds": 3600, "risk_points": 2}
+PARAMS = {"release_sec": 34200, "observe_seconds": 300, "hold_seconds": 3600, "risk_points": 0.4}
 
 
 def signals(panel):
     result = {}
     for symbol, data in panel.items():
         out = np.zeros(len(data), dtype=np.int64)
-        if symbol != "MCL":
+        if symbol != "QM":
             result[symbol] = out
             continue
         sec = data.ct_sec.to_numpy()
@@ -28,4 +28,4 @@ def signals(panel):
 
 
 def entry_risk(panel):
-    return {symbol: np.full(len(data), PARAMS["risk_points"] * 10.0, dtype=float) for symbol, data in panel.items()}
+    return {symbol: np.full(len(data), PARAMS["risk_points"] * 500.0, dtype=float) for symbol, data in panel.items()}
