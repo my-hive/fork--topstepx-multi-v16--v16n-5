@@ -1,0 +1,20 @@
+dev_score: 0.000000   (pass 0.000000 * years 0.000 weighted 0.7, econ_grade 0.0000 weighted 0.3, - knob_penalty 0.005000 for 5 knobs via declared PARAMS)
+folds: {"fold0": 0.0, "fold1": 0.0, "fold2": 0.0340632603406326, "fold3": 0.0}
+era blocks (v1.5 cross-era gate, stressed pnl): {"era0": -166102.50000001513, "era1": -220062.50000001234, "era2": -181465.00000002002}  worst=-220063
+score (eligibility-gated, mode=dev): 0.000000   worst_three_mean 0.000000   eligible=False
+eligibility checks: {"positive_stressed_pnl": false, "year_fraction_at_least_0.7": false, "cross_era_blocks_positive": false, "entry_diversity": true, "entry_risk_at_most_300": true, "side_null_p_le_0_05": true}
+year 2010: {"sessions": 146, "attempts": 117, "passes": 0, "rate": 0.0, "pnl": -10460.0}
+year 2011: {"sessions": 250, "attempts": 221, "passes": 0, "rate": 0.0, "pnl": -23900.000000000175}
+year 2012: {"sessions": 246, "attempts": 217, "passes": 0, "rate": 0.0, "pnl": -37697.50000000182}
+year 2013: {"sessions": 251, "attempts": 222, "passes": 0, "rate": 0.0, "pnl": -54237.50000000445}
+year 2014: {"sessions": 246, "attempts": 217, "passes": 0, "rate": 0.0, "pnl": -40717.50000000876}
+year 2015: {"sessions": 252, "attempts": 223, "passes": 0, "rate": 0.0, "pnl": -40610.00000000903}
+year 2016: {"sessions": 252, "attempts": 223, "passes": 0, "rate": 0.0, "pnl": -55937.50000000224}
+year 2017: {"sessions": 251, "attempts": 222, "passes": 0, "rate": 0.0, "pnl": -48175.00000000021}
+year 2018: {"sessions": 252, "attempts": 223, "passes": 0, "rate": 0.0, "pnl": -51385.0}
+year 2019: {"sessions": 252, "attempts": 223, "passes": 0, "rate": 0.0, "pnl": -45740.00000000079}
+year 2020: {"sessions": 253, "attempts": 224, "passes": 28, "rate": 0.125, "pnl": -32552.5}
+year 2021: {"sessions": 252, "attempts": 223, "passes": 0, "rate": 0.0, "pnl": -42342.50000000385}
+year 2022: {"sessions": 251, "attempts": 222, "passes": 0, "rate": 0.0, "pnl": -41010.00000000952}
+year 2023: {"sessions": 250, "attempts": 221, "passes": 0, "rate": 0.0, "pnl": -42865.00000000666}
+{"dev_score": 0.0, "score": 0.0, "eligible": false, "output": "exp04.json"}
