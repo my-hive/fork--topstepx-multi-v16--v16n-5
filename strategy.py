@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 FAMILY = "energy-overnight-shock-continuation"
-PARAMS = {"entry_sec": 30600, "exit_sec": 46800, "overnight_start": 61200, "atr_days": 20, "shock_mult": 1.5, "risk_dollars": 280}
+PARAMS = {"entry_sec": 30600, "trade_sec": 34200, "exit_sec": 46800, "overnight_start": 61200, "atr_days": 20, "shock_mult": 1.5, "risk_dollars": 280}
 SYMS = ("RB", "NG", "HO")
 
 
@@ -24,7 +24,7 @@ def signals(panel):
         move = go.close.last() - go.open.first()
         side = np.sign(move) * (move.abs() > PARAMS["shock_mult"] * atr.reindex(move.index))
         mapped = sess.map(side).fillna(0).to_numpy()
-        active = (sec >= PARAMS["entry_sec"]) & (sec < PARAMS["exit_sec"])
+        active = (sec >= PARAMS["trade_sec"]) & (sec < PARAMS["exit_sec"])
         out[active] = mapped[active].astype(np.int64)
         result[symbol] = out
     return result
