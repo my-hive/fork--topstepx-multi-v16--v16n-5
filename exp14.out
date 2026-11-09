@@ -1,0 +1,11 @@
+dev_score: 0.196667   (pass 0.000000 * years 0.400 weighted 0.7, econ_grade 0.6756 weighted 0.3, - knob_penalty 0.006000 for 6 knobs via declared PARAMS)
+folds: {"fold0": 0.0, "fold1": 0.0, "fold2": 0.0, "fold3": 0.0}
+era blocks (v1.5 cross-era gate, stressed pnl): {"era0": 6418.5, "era1": 5606.75, "era2": -2808.5}  worst=-2808
+score (eligibility-gated, mode=dev): 0.000000   worst_three_mean 0.000000   eligible=False
+eligibility checks: {"positive_stressed_pnl": true, "year_fraction_at_least_0.7": false, "cross_era_blocks_positive": false, "entry_diversity": true, "entry_risk_at_most_300": true, "side_null_p_le_0_05": true}
+year 2019: {"sessions": 170, "attempts": 141, "passes": 0, "rate": 0.0, "pnl": -215.75}
+year 2020: {"sessions": 259, "attempts": 230, "passes": 0, "rate": 0.0, "pnl": 7336.0}
+year 2021: {"sessions": 259, "attempts": 230, "passes": 0, "rate": 0.0, "pnl": 4698.25}
+year 2022: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -1401.5}
+year 2023: {"sessions": 258, "attempts": 229, "passes": 0, "rate": 0.0, "pnl": -1200.25}
+{"dev_score": 0.19666735242296535, "score": 0.0, "eligible": false, "output": "exp14.json"}
