@@ -10,7 +10,7 @@ def signals(panel):
     result = {}
     for symbol, data in panel.items():
         out = np.zeros(len(data), dtype=np.int64)
-        if symbol != "NQ":
+        if symbol not in ("NQ","YM"):
             result[symbol] = out
             continue
         sec = data.ct_sec.to_numpy()
